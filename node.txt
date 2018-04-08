@@ -1,0 +1,12 @@
+# 启动主任务
+celery -A tasks worker --loglevel=info
+# 启动定时任务
+celery -A tasks beat --loglevel=info
+
+# 启动上面的两个
+celery -B -A tasks worker --loglevel=info
+
+redis-cli
+
+清空所有数据
+flushall
