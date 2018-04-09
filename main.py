@@ -33,6 +33,7 @@ class Spider(Thread):
     def run(self):
         while True:
             task = self.conn.blpop('task', 0)[1]
+            # log.info('启动任务: {}'.format(task))
             if task:
                 r = get_urls.delay(task)
                 self.get_result(task, r)
@@ -41,6 +42,7 @@ class Spider(Thread):
 def run():
     all_thd = []
     for _ in range(THREAD_NUM):
+        log.info('正在启动线程 {}'.format(_))
         t = Spider()
         all_thd.append(t)
         t.daemon = True

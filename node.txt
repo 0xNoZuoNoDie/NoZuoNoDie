@@ -10,3 +10,6 @@ redis-cli
 
 清空所有数据
 flushall
+
+# 数据库
+SELECT `domain` FROM `domain` WHERE `domain` like '%baidu.com%'

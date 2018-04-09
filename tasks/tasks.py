@@ -52,6 +52,20 @@ def url_is_exist(url):
     # print('{:50}{}'.format(url, md5))
     if r.hget(REDIS_MD5_TEMP_NAME, md5) == 'True':
         return True, url
+
+    domain = URL.get_domain(url)
+    if domain is None:
+        return True, url
+
+    if not r.hexists('domain', domain):
+        r.hset('domain', domain, 1)
+        return False, url
+
+    if int(r.hget('domain', domain)) > 50:
+        return True, url
+
+    r.hset('domain', domain, int(r.hget('domain', domain)) + 1)
+    # print('domain: {}, num: {}'.format(domain, r.hget('domain', domain)))
     r.hset(REDIS_MD5_TEMP_NAME, md5, True)
     return False, url
 
