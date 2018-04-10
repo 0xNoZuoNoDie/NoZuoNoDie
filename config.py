@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import redis
 import os
 import pymysql
+import json
 from DBUtils.PooledDB import PooledDB
 
 REDIS_MD5_TEMP_NAME = 'old_urls'
@@ -10,7 +11,7 @@ REDIS_MD5_TEMP_NAME = 'old_urls'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
 BROKER_URL = 'redis://127.0.0.1:6379/0'
 
-CELERY_IMPORTS = ('tasks.tasks',)
+CELERY_IMPORTS = ('tasks.tasks', 'tasks.cms_search')
 
 # 数据库配置
 MYSQL_CONFIG = {
@@ -54,3 +55,12 @@ THREAD_NUM = 20  # 线程数
 
 # 项目根目录配置
 ROOT_DIR = os.path.dirname(os.path.abspath(__name__))
+
+# start CMS指纹配置
+# CMS识别指纹 文件路径
+CMS_FILE_PATH = os.path.join(ROOT_DIR, 'data/cms.json')
+# 读取指纹数据
+file_hand = open(CMS_FILE_PATH, 'r')
+CMS_DATA = json.loads(file_hand.read())
+file_hand.close()
+# end CMS指纹配置

@@ -31,10 +31,12 @@ def retry_action(retry_num=3):
 
 
 class Download:
-    _UA = 'Mozilla/5.0 (compatible; Baiduspider/2.0;+http://www.baidu.com/search/spider.html)'
+    # _UA = 'Mozilla/5.0 (compatible; Baiduspider/2.0;+http://www.baidu.com/search/spider.html)'
+    _UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'
 
-    def __init__(self, url, headers=None, timeout=10):
+    def __init__(self, url, path='', headers=None, timeout=10):
         self._url = url
+        self._path = path
         if headers is None:
             self._headers = {'User-Agent': self._UA}
         else:
@@ -43,17 +45,17 @@ class Download:
         self._timeout = timeout
         self._response = self.__get()
 
-    @retry_action()
+    # @retry_action()
     def __download(self):
         return requests.get(self._url, headers=self._headers, timeout=self._timeout)
 
     def __get(self):
         self._url = Url.check(self._url)
-        print(self._url)
         if self._url is None:
             return False
+        self._url = self._url + self._path
 
-        log.info('正在获取 {}'.format(self._url))
+        # log.info('正在获取 {}'.format(self._url))
         try:
             return self.__download()
         except Exception as e:
@@ -68,8 +70,8 @@ class Download:
         return self._response.status_code
 
     def result(self):
-        if self._response is None:
-            return None
+        if self.get_status_code() != 200:
+            return
 
         return {'html': self._response.text, 'status_code': self.get_status_code()}
 

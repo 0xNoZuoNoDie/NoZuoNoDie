@@ -6,7 +6,7 @@ from tasks.celery import app
 from web.downloads import Download
 from lxml import etree
 import web.URL as URL
-from config import REDIS_POOL, REDIS_MD5_TEMP_NAME
+from config import REDIS_POOL, REDIS_MD5_TEMP_NAME, CMS_DATA
 from datetime import timedelta
 from db import OpenMysqlConn
 import redis
@@ -61,7 +61,7 @@ def url_is_exist(url):
         r.hset('domain', domain, 1)
         return False, url
 
-    if int(r.hget('domain', domain)) > 50:
+    if int(r.hget('domain', domain)) > 10:
         return True, url
 
     r.hset('domain', domain, int(r.hget('domain', domain)) + 1)

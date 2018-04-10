@@ -20,6 +20,7 @@ class Spider(Thread):
                     log.info('{:30} 查询共获取到: {}'.format(url, len(result)))
                     for new_url in result:
                         self.conn.lpush('task', new_url)
+                        self.conn.lpush('cms_task', new_url)
                     conn = POOL.connection()
                     cursor = conn.cursor()
                     _sql = 'INSERT INTO Domain (domain) VALUES (%s);'
