@@ -1,7 +1,4 @@
-DROP DATABASE IF EXISTS `echart`;
-
-CREATE DATABASE IF NOT EXISTS `echart` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `echart`;
+USE `Domain`;
 
 CREATE TABLE `spider` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

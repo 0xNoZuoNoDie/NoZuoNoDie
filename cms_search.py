@@ -16,6 +16,9 @@ class Spider(Thread):
             if r.ready():
                 result = r.result
                 log.info('{:30} 查询结果: {}'.format(url, result.__repr__()))
+
+                # 更新数据库数据
+
                 break
                 # if result:
                 #     log.info('{:30} CMS为: {}'.format(url, result))
